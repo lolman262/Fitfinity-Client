@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "593236148404",
+    "project_id": "fitness-workout-planner",
+    "storage_bucket": "fitness-workout-planner.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:593236148404:android:f189a904ada4e7180a97e1",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6WbBhX2QuG0iJfokSMCgLgayjmY5vrzY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:593236148404:android:3fe777a05bb344470a97e1",
+        "android_client_info": {
+          "package_name": "com.example.logintest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6WbBhX2QuG0iJfokSMCgLgayjmY5vrzY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
