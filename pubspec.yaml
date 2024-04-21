@@ -1,5 +1,5 @@
-name: logintest
-description: "A new Flutter project."
+name: FitFinity
+description: "Trademark goes to keed#7877"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -38,6 +38,11 @@ dependencies:
   firebase_core: ^2.25.5
   firebase_auth: ^4.17.6
   http: ^1.2.1
+  fluttertoast: ^8.2.4
+  dio: ^5.4.2+1
+  cookie_jar: ^4.0.8
+  dio_cookie_manager: ^3.1.1
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -67,6 +72,26 @@ flutter:
     - lib/images/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "lib/images/Logo.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "lib/images/Logo.png"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: "lib/images/Logo.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "lib/images/Logo.png"
+
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

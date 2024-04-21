@@ -1,35 +1,106 @@
+//import 'dart:html';
+
+import 'package:dio/browser.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+//import 'package:http/browser_client.dart';
 import 'package:logintest/components/my_button.dart';
 import 'package:logintest/components/my_textfield.dart';
 import 'package:logintest/components/square_tile.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:http/http.dart' as http;
+//import 'dart:convert';
+import 'package:dio/dio.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class LoginPageWeb extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
 
-  // text editing controllers
+
+  
+}
+
+class _LoginPageState extends State<LoginPageWeb> {
+  //LoginPage({super.key});
+
+
+
+  var errMsg = '';
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final hostname = 'https://api.imnewwdomain.uk';
 
-  // sign user in method
-  // void signUserIn() {
-  //   if (!passwordController.text.trim().isEmpty) {
-  //     print(passwordController.text.trim());
-  //   } else {
-  //     print("Empty");
-  //   }
-  // }
+  void testSession() async {
+    var url = '${hostname}/api/data';
+    var headers = {'Content-Type': 'application/json'};
 
-  void signUserIn() async{
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: emailController.text,
-      password: passwordController.text,
+    BaseOptions options = BaseOptions(
+      headers: {
+        "Accept": "application/json",
+      },
+    );
+    DioForBrowser _d = DioForBrowser(options);
+    var adapter = BrowserHttpClientAdapter(withCredentials: true);
+   
+    adapter.withCredentials = true;
+    _d.httpClientAdapter = adapter;
+
+    var response = await _d.get(
+      url,
+      options: Options(headers: headers),
+    );
+
+    if (response.statusCode == 200) {
+      print(response.data);
+    } else {
+      print(response.statusCode);
+      //throw Exception('Failed to create session');
+    }
+  }
+
+  void signUserIn() {
+    if (emailController.text.trim().isEmpty ||
+        passwordController.text.trim().isEmpty) {
+      setState(() {
+        errMsg = 'Please fill in all fields';
+      });
+    } else {
+   //   signUserInWeb();
+    }
+  }
+
+  
+
+  void showToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.black,
+      textColor: Colors.white,
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
+    
+  //     String getOSInsideWeb() {
+  //       final userAgent = window.navigator.userAgent.toString().toLowerCase();
+  //       if( userAgent.contains("iphone"))  return "ios";
+  //       if( userAgent.contains("ipad")) return "ios";
+  //       if( userAgent.contains("android"))  return "Android";
+  //     return "Web";
+  //   }
+
+  // String platform = "";
+  //     if(kIsWeb) {
+  //       platform = getOSInsideWeb();
+  //     }
+
+
+
+
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: SafeArea(
@@ -47,17 +118,29 @@ class LoginPage extends StatelessWidget {
 
               const SizedBox(height: 50),
 
-              // welcome back, you've been missed!
               Text(
-               //'I need volt smg',
-               'Welcome back you\'ve been missed!',
+                'Welcome back you\'ve been missed!',
                 style: TextStyle(
                   color: Colors.grey[700],
                   fontSize: 16,
                 ),
               ),
 
-              const SizedBox(height: 25),
+              const SizedBox(height: 20),
+
+              // error message
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      errMsg,
+                      style: TextStyle(color: Colors.red[600]),
+                    ),
+                  ],
+                ),
+              ),
 
               // email textfield
               MyTextField(
@@ -71,7 +154,7 @@ class LoginPage extends StatelessWidget {
               // password textfield
               MyTextField(
                 controller: passwordController,
-                hintText: 'Password',
+                hintText: 'Pasasdsword',
                 obscureText: true,
               ),
 
@@ -158,7 +241,7 @@ class LoginPage extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       // Your onTap action here
-                      signUserIn();
+                      testSession();
                     },
                     child: const Text(
                       'Register now',
@@ -167,7 +250,6 @@ class LoginPage extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         decoration: TextDecoration.underline,
                         decorationColor: Colors.blue,
-
                       ),
                     ),
                   ),
