@@ -3,7 +3,7 @@
 //import 'package:flutter/foundation.dart';
 
 // import 'pages/login_page.dart';
-import 'pages/login_page_web.dart';
+import 'pages/login_page.dart';
 import 'package:flutter/material.dart';
 //import 'pages/restapi_test.dart';
 // import 'package:firebase_core/firebase_core.dart';
@@ -40,11 +40,10 @@ class MyApp extends StatelessWidget {
     // if(platform == "web"){
 
     return MaterialApp(
+      title: 'Fitfinity',
       debugShowCheckedModeBanner: false,
 
-      home: LoginPageWeb(),
-
-//         home: LoginPageWeb(),
+      home: LoginPage(),
 
       // },
     );

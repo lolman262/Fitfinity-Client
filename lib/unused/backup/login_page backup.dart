@@ -29,7 +29,7 @@ class _LoginPageState extends State<LoginPageWeb> {
   var errMsg = '';
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final hostname = 'https://api.imnewwdomain.uk';
+  final hostname = 'https://api3.imnewwdomain.uk';
 
   void testSession() async {
     var url = '${hostname}/api/data';

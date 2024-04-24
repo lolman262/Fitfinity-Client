@@ -8,28 +8,30 @@ import '../network/session_test.dart';
 import '../pages/register_page.dart';
 import '../network/login_auth.dart';
 import '../components/my_button.dart';
+import '../pages/home_page.dart';
 import '../components/my_textfield.dart';
 import '../components/square_tile.dart';
+import '../network/getUserDetails.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 
 //import 'package:dio/dio.dart';
 
 //String platform = "";
 
-class LoginPageWeb extends StatefulWidget {
-  const LoginPageWeb({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPageWeb> {
+class _LoginPageState extends State<LoginPage> {
   //LoginPage({super.key});
 
   var errMsg = '';
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final hostname = 'https://api.imnewwdomain.uk';
+  final hostname = 'https://api3.imnewwdomain.uk';
 //final hostname = 'http://localhost:443';
   Future<void> signUserIn() async {
     if (emailController.text.trim().isEmpty ||
@@ -45,6 +47,35 @@ class _LoginPageState extends State<LoginPageWeb> {
       int statusCode = await signUserInLogic(
           hostname, emailController.text, passwordController.text);
       showToast(statusCode.toString());
+
+      if (statusCode == 200) {
+        // get user details
+        var userDetails = await getUserDetails(hostname);
+        int height = userDetails['height'];
+        int weight = userDetails['weight'];
+        var gender = userDetails['gender'];
+        int age = userDetails['age'];
+        var imagePath = userDetails['profile_picture_path'];
+        var username = userDetails['username'];
+
+   
+        if (mounted) {
+            Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => HomePage(
+                username: username,
+                height: height,
+                weight: weight,
+                gender: gender,
+                age: age,
+                imagePath: imagePath,
+                )),
+
+            );
+        }
+      } else {
+        showToast('Login failed');
+      }
     }
   }
 
@@ -65,6 +96,9 @@ class _LoginPageState extends State<LoginPageWeb> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Login | Fitfinity'),
+      ),
       backgroundColor: Colors.grey[300],
       body: SafeArea(
         child: Center(
@@ -77,9 +111,10 @@ class _LoginPageState extends State<LoginPageWeb> {
                   const SizedBox(height: 50),
 
                   // logo
-                  const Icon(
-                    Icons.lock,
-                    size: 100,
+                  Image.asset(
+                    'lib/images/fitfinity_logo.png',
+                    width: 100,
+                    height: 100,
                   ),
 
                   const SizedBox(height: 50),
@@ -120,7 +155,7 @@ class _LoginPageState extends State<LoginPageWeb> {
                   // password textfield
                   MyTextField(
                     controller: passwordController,
-                    hintText: 'Pasasdsword',
+                    hintText: 'password',
                     obscureText: true,
                   ),
 
@@ -133,7 +168,7 @@ class _LoginPageState extends State<LoginPageWeb> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
-                          'Forgot Password?',
+                          '',
                           style: TextStyle(color: Colors.grey[600]),
                         ),
                       ],
@@ -160,13 +195,13 @@ class _LoginPageState extends State<LoginPageWeb> {
                             color: Colors.grey[400],
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          child: Text(
-                            'Or continue with',
-                            style: TextStyle(color: Colors.grey[700]),
-                          ),
-                        ),
+                        // Padding(
+                        //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        //   child: Text(
+                        //     'Or continue with',
+                        //     style: TextStyle(color: Colors.grey[700]),
+                        //   ),
+                        // ),
                         Expanded(
                           child: Divider(
                             thickness: 0.5,
@@ -177,21 +212,21 @@ class _LoginPageState extends State<LoginPageWeb> {
                     ),
                   ),
 
-                  const SizedBox(height: 50),
+                  // const SizedBox(height: 50),
 
-                  // google + apple sign in buttons
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // google button
-                      SquareTile(imagePath: 'lib/images/google.png'),
+                  // // google + apple sign in buttons
+                  // const Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //     // google button
+                  //     SquareTile(imagePath: 'lib/images/google.png'),
 
-                      SizedBox(width: 25),
+                  //     SizedBox(width: 25),
 
-                      // apple button
-                      SquareTile(imagePath: 'lib/images/apple.png')
-                    ],
-                  ),
+                  //     // apple button
+                  //     SquareTile(imagePath: 'lib/images/apple.png')
+                  //   ],
+                  // ),
 
                   const SizedBox(height: 50),
 
@@ -203,7 +238,6 @@ class _LoginPageState extends State<LoginPageWeb> {
                         'Not a member?',
                         style: TextStyle(color: Colors.grey[700]),
                       ),
-                      
                       const SizedBox(width: 4),
                       GestureDetector(
                         onTap: () {
@@ -224,25 +258,24 @@ class _LoginPageState extends State<LoginPageWeb> {
                         ),
                       ),
                       const SizedBox(width: 4),
-                      
                     ],
                   ),
-                  const SizedBox(height: 4),
-                  GestureDetector(
-                        onTap: () {
-                          // Your onTap action here
-                          testSession();
-                        },
-                        child: const Text(
-                          'Test Login session',
-                          style: TextStyle(
-                            color: Colors.blue,
-                            fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline,
-                            decorationColor: Colors.blue,
-                          ),
-                        ),
-                      ),
+                  //const SizedBox(height: 4),
+                  // GestureDetector(
+                  //   onTap: () {
+                  //     // Your onTap action here
+                  //     testSession();
+                  //   },
+                  //   child: const Text(
+                  //     'Test Login session',
+                  //     style: TextStyle(
+                  //       color: Colors.blue,
+                  //       fontWeight: FontWeight.bold,
+                  //       decoration: TextDecoration.underline,
+                  //       decorationColor: Colors.blue,
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
